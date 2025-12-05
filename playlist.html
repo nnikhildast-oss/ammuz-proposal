@@ -2,192 +2,64 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Playlist — Like Spotify</title>
-
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Playlist — Like Spotify (Animated Bars)</title>
   <style>
     :root{
-      --bg:#f8f2fb;
-      --card:#fff;
-      --accent:#8a3be2;
-      --muted:#6c6c78;
-      --shadow: 0 8px 30px rgba(133,94,201,0.12);
+      --bg:#f8f2fb; --card:#fff; --accent:#8a3be2; --muted:#6c6c78;
     }
     *{box-sizing:border-box}
     body{
-      margin:0;
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(180deg, var(--bg) 0%, #fff 100%);
-      color:#222;
+      margin:0; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      background: linear-gradient(180deg,var(--bg) 0%, #fff 100%);
+      color:#222; padding:18px;
       -webkit-font-smoothing:antialiased;
-      padding:18px;
     }
-
-    .container{
-      max-width:420px;
-      margin:12px auto;
-      background:transparent;
-    }
-
-    .card{
-      background:var(--card);
-      border-radius:18px;
-      padding:18px;
-      box-shadow:var(--shadow);
-      text-align:center;
-    }
-
-    .back{
-      display:inline-block;
-      color:var(--muted);
-      text-decoration:none;
-      margin-bottom:12px;
-      font-size:14px;
-    }
-
-    .cover-wrap{
-      position:relative;
-      margin:6px auto 12px;
-      width:86%;
-      max-width:320px;
-      border-radius:14px;
-      overflow:hidden;
-      box-shadow: 0 14px 30px rgba(130,90,200,0.12);
-    }
-
-    .cover{
-      width:100%;
-      display:block;
-      height:auto;
-      object-fit:cover;
-    }
-
-    .meta{
-      margin-top:12px;
-    }
-
-    .title{
-      font-size:20px;
-      font-weight:700;
-      color:#2b1a45;
-      margin:6px 0 2px;
-    }
-
-    .artist{
-      color:var(--muted);
-      font-size:14px;
-      margin-bottom:14px;
-    }
-
-    /* Progress */
-    .progress-wrap{
-      width:92%;
-      margin: 0 auto 12px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-    .time{font-size:12px;color:var(--muted); width:36px;}
-    .progress{
-      flex:1;
-      height:8px;
-      background:#f0e7fb;
-      border-radius:10px;
-      position:relative;
-      overflow:hidden;
-    }
-    .progress > .bar{
-      position:absolute;
-      left:0; top:0; bottom:0;
-      width:0%;
-      background:linear-gradient(90deg,var(--accent), #c65bff);
-      border-radius:10px;
-      transition: width 0.1s linear;
-    }
-
-    /* Controls */
-    .controls{
-      margin-top:6px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:18px;
-    }
-    .btn{
-      background:transparent;
-      border:none;
-      font-size:20px;
-      padding:10px;
-      border-radius:10px;
-      cursor:pointer;
-    }
-    .play{
-      width:66px;
-      height:66px;
-      border-radius:50%;
-      background:linear-gradient(180deg,var(--accent), #c65bff);
-      color:white;
-      font-size:26px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow: 0 8px 20px rgba(138,59,226,0.25);
-    }
-
-    /* Queue */
-    .queue{
-      margin-top:16px;
-      text-align:left;
-    }
-    .queue h3{
-      font-size:15px;
-      margin:0 0 8px 8px;
-      color:#3b2a4a;
-    }
-    .track{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      padding:10px;
-      border-radius:12px;
-      margin:8px 0;
-      transition:all .18s;
-      cursor:pointer;
-    }
+    .container{ max-width:420px; margin:12px auto; }
+    .card{ background:var(--card); border-radius:16px; padding:16px; box-shadow:0 12px 30px rgba(120,80,170,0.08); }
+    .back{ color:var(--muted); text-decoration:none; font-size:14px; display:inline-block; margin-bottom:8px; }
+    .cover-wrap{ width:88%; max-width:340px; margin:6px auto; border-radius:12px; overflow:hidden; }
+    .cover{ width:100%; display:block; object-fit:cover; }
+    .meta{ text-align:center; margin-top:10px; }
+    .title{ font-size:20px; font-weight:700; color:#2b1a45; margin:6px 0 2px; }
+    .artist{ color:var(--muted); font-size:14px; margin-bottom:10px; }
+    .progress-wrap{ display:flex; align-items:center; gap:10px; justify-content:center; margin:10px 6px; }
+    .time{ width:40px; font-size:12px; color:var(--muted); text-align:center; }
+    .progress{ flex:1; height:8px; background:#f0e7fb; border-radius:10px; position:relative; cursor:pointer; }
+    .bar{ position:absolute; left:0; top:0; bottom:0; width:0%; background:linear-gradient(90deg,var(--accent),#c65bff); border-radius:10px; transition: width 0.08s linear; }
+    .controls{ display:flex; gap:18px; align-items:center; justify-content:center; margin-top:8px; }
+    .btn{ background:transparent; border:none; font-size:20px; padding:8px; border-radius:10px; cursor:pointer; }
+    .play{ width:64px; height:64px; border-radius:50%; background:linear-gradient(180deg,var(--accent),#c65bff); color:#fff; font-size:26px; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 24px rgba(138,59,226,0.22); }
+    .queue{ margin-top:14px; text-align:left; }
+    .queue h3{ margin:0 0 8px 8px; font-size:15px; color:#3b2a4a; }
+    .track{ display:flex; gap:10px; align-items:center; padding:8px; border-radius:10px; cursor:pointer; transition:all .12s; }
     .track:hover{ transform:translateY(-3px) }
-    .track img{ width:48px; height:48px; border-radius:8px; object-fit:cover; }
-    .track .tmeta{ font-size:14px; }
-    .track .tmeta .name{ font-weight:600; color:#332244 }
-    .track .tmeta .sub{ font-size:12px; color:var(--muted); margin-top:2px }
-    .track.active{
-      background: linear-gradient(90deg, rgba(138,59,226,0.08), rgba(198,91,255,0.03));
-      border:1px solid rgba(138,59,226,0.06);
-    }
-
-    /* small screens */
-    @media (max-width:420px){
-      .container{ padding:0 12px }
-      .cover-wrap{ width:92% }
-    }
+    .track img{ width:52px; height:52px; border-radius:8px; object-fit:cover; }
+    .tmeta .name{ font-weight:600; color:#332244 }
+    .tmeta .sub{ font-size:12px; color:var(--muted); margin-top:3px }
+    .track.active{ background:linear-gradient(90deg, rgba(138,59,226,0.06), rgba(198,91,255,0.03)); border:1px solid rgba(138,59,226,0.05); }
+    /* Visualizer canvas */
+    #viz{ width:100%; height:70px; display:block; border-radius:8px; margin-top:12px; background:linear-gradient(180deg, rgba(200,170,255,0.05), rgba(255,255,255,0)); }
+    @media (max-width:420px){ .cover-wrap{ width:92% } }
   </style>
 </head>
 <body>
-
   <div class="container">
     <a class="back" href="index.html">← Back</a>
-
     <div class="card">
       <div class="cover-wrap">
         <img id="coverImg" class="cover" src="song1.jpg" alt="cover">
       </div>
 
       <div class="meta">
-        <div class="title" id="songTitle">Song 1</div>
-        <div class="artist" id="songArtist">Artist Name</div>
+        <div id="songTitle" class="title">Theerame</div>
+        <div id="songArtist" class="artist">K.S. Harisankar, Sushin Shyam</div>
+
+        <canvas id="viz"></canvas>
 
         <div class="progress-wrap">
           <div class="time" id="curTime">0:00</div>
-          <div class="progress" id="progressBar" role="progressbar" aria-valuemin="0">
+          <div class="progress" id="progressBar" title="Seek">
             <div class="bar" id="progressFill"></div>
           </div>
           <div class="time" id="durTime">0:00</div>
@@ -202,26 +74,25 @@
 
       <div class="queue">
         <h3>Up next</h3>
-        <div id="tracks">
-          <!-- Tracks will be inserted by JS -->
-        </div>
+        <div id="tracks"></div>
       </div>
     </div>
   </div>
 
-  <!-- audio -->
-  <audio id="audio"></audio>
+  <!-- hidden audio element -->
+  <audio id="audio" crossorigin="anonymous"></audio>
 
   <script>
-    // ---------- EDIT THESE ARRAYS IF YOUR FILENAMES ARE DIFFERENT ----------
+    /* -------------------------
+       Playlist — Edit filenames here if yours differ
+       ------------------------- */
     const playlist = [
-      {src: "song1.mp3", title: "Song 1", artist: "You & Me", cover: "song1.jpg"},
-      {src: "song2.mp3", title: "Song 2", artist: "My Heart", cover: "song2.jpg"},
-      {src: "song3.mp3", title: "Song 3", artist: "Always", cover: "song3.jpg"}
+      { src: "song1.mp3", title: "Theerame", artist: "K.S. Harisankar, Sushin Shyam", cover: "song1.jpg" },
+      { src: "song2.mp3", title: "Oru Mezhuthiriyude", artist: "Bijibal, Shreya Jayadeep", cover: "song2.jpg" },
+      { src: "song3.mp3", title: "Premamennoru Pattu", artist: "Hesham Abdul Wahab", cover: "song3.jpg" }
     ];
-    // ---------------------------------------------------------------------
 
-    // DOM
+    // DOM refs
     const audio = document.getElementById("audio");
     const coverImg = document.getElementById("coverImg");
     const songTitle = document.getElementById("songTitle");
@@ -234,28 +105,26 @@
     const curTimeEl = document.getElementById("curTime");
     const durTimeEl = document.getElementById("durTime");
     const tracksEl = document.getElementById("tracks");
+    const canvas = document.getElementById("viz");
+    const ctx = canvas.getContext("2d");
 
     // state
     let idx = 0;
     let isPlaying = false;
+    let audioCtx = null;
+    let analyser = null;
+    let sourceNode = null;
+    let rafId = null;
 
     // build queue UI
     function buildQueue(){
       tracksEl.innerHTML = "";
       playlist.forEach((p, i) => {
         const tr = document.createElement("div");
-        tr.className = "track" + (i===idx ? " active" : "");
+        tr.className = "track" + (i === idx ? " active" : "");
         tr.dataset.index = i;
-        tr.innerHTML = `
-          <img src="${p.cover}" alt="cover">
-          <div class="tmeta">
-            <div class="name">${p.title}</div>
-            <div class="sub">${p.artist}</div>
-          </div>
-        `;
-        tr.addEventListener("click", ()=> {
-          idx = i; loadAndPlay();
-        });
+        tr.innerHTML = `<img src="${p.cover}" alt="cover"><div class="tmeta"><div class="name">${p.title}</div><div class="sub">${p.artist}</div></div>`;
+        tr.addEventListener("click", () => { idx = i; loadAndPlay(); });
         tracksEl.appendChild(tr);
       });
     }
@@ -275,19 +144,36 @@
       list.forEach(el => el.classList.toggle("active", Number(el.dataset.index) === idx));
     }
 
+    // initialize AudioContext + analyser when user first interacts
+    function ensureAudioContext(){
+      if (audioCtx) return;
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 256;
+      sourceNode = audioCtx.createMediaElementSource(audio);
+      sourceNode.connect(analyser);
+      analyser.connect(audioCtx.destination);
+      startVisualizer();
+    }
+
+    // play / pause
     function play(){
-      audio.play().then(()=> {
+      ensureAudioContext();
+      // on mobile, resume context if suspended
+      if (audioCtx.state === "suspended") audioCtx.resume().catch(()=>{});
+      audio.play().then(() => {
         isPlaying = true;
         playBtn.textContent = "⏸";
-      }).catch(err=>{
-        // play may be blocked until user gesture — but user clicked
-        console.log("play() error:", err);
+        startVisualizer();
+      }).catch(err => {
+        console.log("play error", err);
       });
     }
     function pause(){
       audio.pause();
       isPlaying = false;
       playBtn.textContent = "▶";
+      stopVisualizer();
     }
 
     function loadAndPlay(){
@@ -300,12 +186,10 @@
       if (!isPlaying) play();
       else pause();
     });
-
     prevBtn.addEventListener("click", () => {
       idx = (idx - 1 + playlist.length) % playlist.length;
       loadAndPlay();
     });
-
     nextBtn.addEventListener("click", () => {
       idx = (idx + 1) % playlist.length;
       loadAndPlay();
@@ -313,13 +197,13 @@
 
     // progress updates
     audio.addEventListener("timeupdate", () => {
-      const percent = (audio.currentTime / (audio.duration || 1)) * 100;
-      progressFill.style.width = percent + "%";
+      const pct = (audio.currentTime / (audio.duration || 1)) * 100;
+      progressFill.style.width = pct + "%";
       curTimeEl.textContent = formatTime(audio.currentTime);
       durTimeEl.textContent = formatTime(audio.duration || 0);
     });
 
-    // click to seek
+    // seek by clicking progress bar
     progressBar.addEventListener("click", (e) => {
       const rect = progressBar.getBoundingClientRect();
       const clickX = e.clientX - rect.left;
@@ -333,7 +217,6 @@
       loadAndPlay();
     });
 
-    // format mm:ss
     function formatTime(t){
       if (!t || isNaN(t)) return "0:00";
       const m = Math.floor(t/60);
@@ -341,11 +224,71 @@
       return `${m}:${s}`;
     }
 
-    // initial
+    // Visualizer
+    function resizeCanvas(){
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = canvas.clientWidth * dpr;
+      canvas.height = canvas.clientHeight * dpr;
+      ctx.scale(dpr, dpr);
+    }
+
+    function startVisualizer(){
+      if (!analyser) return;
+      cancelAnimationFrame(rafId);
+      resizeCanvas();
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+
+      function draw(){
+        rafId = requestAnimationFrame(draw);
+        analyser.getByteFrequencyData(dataArray);
+        const width = canvas.clientWidth;
+        const height = canvas.clientHeight;
+        ctx.clearRect(0,0,width,height);
+
+        // visual style
+        const barCount = 32;
+        const barWidth = Math.max(2, Math.floor(width / barCount) - 4);
+        const gap = (width - (barWidth * barCount)) / (barCount - 1);
+
+        for (let i=0; i<barCount; i++){
+          // sample from dataArray spread across
+          const dataIndex = Math.floor(i * (bufferLength / barCount));
+          const v = dataArray[dataIndex] / 255; // 0..1
+          const barHeight = v * (height - 8);
+
+          // gradient fill (accent)
+          const grad = ctx.createLinearGradient(0, height-barHeight, 0, height);
+          grad.addColorStop(0, "rgba(198,91,255,0.95)");
+          grad.addColorStop(1, "rgba(138,59,226,0.75)");
+          ctx.fillStyle = grad;
+
+          const x = i * (barWidth + gap);
+          ctx.fillRect(x, height - barHeight, barWidth, barHeight);
+          // soft top glow
+          ctx.fillStyle = "rgba(255,255,255,0.06)";
+          ctx.fillRect(x, height - barHeight, barWidth, 2);
+        }
+      }
+      draw();
+    }
+
+    function stopVisualizer(){
+      cancelAnimationFrame(rafId);
+      // clear canvas
+      ctx.clearRect(0,0,canvas.clientWidth,canvas.clientHeight);
+    }
+
+    // initial UI
     buildQueue();
     loadSong(idx);
 
-    // Friendly note: on mobile the user must tap Play for audio to start.
+    // ensure canvas resizes with window
+    window.addEventListener("resize", () => {
+      resizeCanvas();
+    });
+
+    // Friendly note: Mobile browsers require a user tap to start audio; pressing the big play button counts as interaction and initializes visualization.
   </script>
 </body>
 </html>
