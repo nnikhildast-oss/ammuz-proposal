@@ -1,40 +1,159 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Our Playlist 🎵</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Playlist 🎵</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #fdf2ff;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 10px;
+      color: #b049c7;
+      font-size: 28px;
+    }
+
+    p {
+      margin-top: -5px;
+      color: #555;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 30px;
+    }
+
+    li {
+      background: white;
+      padding: 15px;
+      margin: 10px auto;
+      width: 80%;
+      border-radius: 12px;
+      font-size: 18px;
+      color: #444;
+      cursor: pointer;
+      transition: 0.3s;
+      border: 2px solid transparent;
+    }
+
+    li:hover {
+      transform: scale(1.03);
+    }
+
+    .active {
+      border-color: #c44bff;
+      background: #fce7ff;
+      font-weight: 700;
+      color: #a010d4;
+    }
+
+    /* Floating Play Button */
+    #floatingBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 65px;
+      height: 65px;
+      background: #d86bff;
+      color: white;
+      border-radius: 50%;
+      font-size: 30px;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+      transition: 0.3s;
+    }
+
+    #floatingBtn:hover {
+      transform: scale(1.1);
+      background: #c453f2;
+    }
+  </style>
 </head>
 
-<body id="page-playlist">
+<body>
 
-<header class="topbar">
-  <a href="index.html" class="small-link">← Back</a>
-</header>
+  <a href="index.html" style="text-decoration:none; color:#444;">← Back</a>
 
-<section class="playlist-section">
-  <h1 class="playlist-title">🎵 Our Playlist</h1>
-  <p class="playlist-sub">Songs that remind me of you, Ammuzz 💜</p>
+  <h1>🎵 Our Playlist</h1>
+  <p>Songs that remind me of you 💜</p>
 
-  <div class="song-card">
-    <h3>💜 Song 1</h3>
-    <audio controls src="song1.mp3"></audio>
-  </div>
+  <ul id="songList">
+    <li data-src="song1.mp3">💜 Song 1</li>
+    <li data-src="song2.mp3">💜 Song 2</li>
+    <li data-src="song3.mp3">💜 Song 3</li>
+  </ul>
 
-  <div class="song-card">
-    <h3>💜 Song 2</h3>
-    <audio controls src="song2.mp3"></audio>
-  </div>
+  <!-- Hidden audio player -->
+  <audio id="player"></audio>
 
-  <div class="song-card">
-    <h3>💜 Song 3</h3>
-    <audio controls src="song3.mp3"></audio>
-  </div>
-</section>
+  <!-- Floating Button -->
+  <button id="floatingBtn">▶️</button>
 
-<script src="main.js"></script>
+  <script>
+    const songs = ["song1.mp3", "song2.mp3", "song3.mp3"];
+    const songList = document.querySelectorAll("#songList li");
+    const player = document.getElementById("player");
+    const btn = document.getElementById("floatingBtn");
+
+    let index = 0;
+    let isPlaying = false;
+
+    function loadSong(i) {
+      player.src = songs[i];
+      highlight(i);
+    }
+
+    function highlight(i) {
+      songList.forEach((li, idx) => {
+        li.classList.toggle("active", idx === i);
+      });
+    }
+
+    function playMusic() {
+      player.play();
+      btn.textContent = "⏸";
+      isPlaying = true;
+    }
+
+    function pauseMusic() {
+      player.pause();
+      btn.textContent = "▶️";
+      isPlaying = false;
+    }
+
+    btn.addEventListener("click", () => {
+      if (isPlaying) pauseMusic();
+      else playMusic();
+    });
+
+    songList.forEach((li, i) => {
+      li.addEventListener("click", () => {
+        index = i;
+        loadSong(index);
+        playMusic();
+      });
+    });
+
+    player.onended = () => {
+      index = (index + 1) % songs.length; 
+      loadSong(index);
+      playMusic();
+    };
+
+    loadSong(index);
+  </script>
+
 </body>
 </html>
