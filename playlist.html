@@ -1,159 +1,351 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Our Playlist 🎵</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Playlist — Like Spotify</title>
 
   <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background: #fdf2ff;
-      margin: 0;
-      padding: 20px;
-      text-align: center;
+    :root{
+      --bg:#f8f2fb;
+      --card:#fff;
+      --accent:#8a3be2;
+      --muted:#6c6c78;
+      --shadow: 0 8px 30px rgba(133,94,201,0.12);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, var(--bg) 0%, #fff 100%);
+      color:#222;
+      -webkit-font-smoothing:antialiased;
+      padding:18px;
     }
 
-    h1 {
-      margin-top: 10px;
-      color: #b049c7;
-      font-size: 28px;
+    .container{
+      max-width:420px;
+      margin:12px auto;
+      background:transparent;
     }
 
-    p {
-      margin-top: -5px;
-      color: #555;
+    .card{
+      background:var(--card);
+      border-radius:18px;
+      padding:18px;
+      box-shadow:var(--shadow);
+      text-align:center;
     }
 
-    ul {
-      list-style: none;
-      padding: 0;
-      margin-top: 30px;
+    .back{
+      display:inline-block;
+      color:var(--muted);
+      text-decoration:none;
+      margin-bottom:12px;
+      font-size:14px;
     }
 
-    li {
-      background: white;
-      padding: 15px;
-      margin: 10px auto;
-      width: 80%;
-      border-radius: 12px;
-      font-size: 18px;
-      color: #444;
-      cursor: pointer;
-      transition: 0.3s;
-      border: 2px solid transparent;
+    .cover-wrap{
+      position:relative;
+      margin:6px auto 12px;
+      width:86%;
+      max-width:320px;
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow: 0 14px 30px rgba(130,90,200,0.12);
     }
 
-    li:hover {
-      transform: scale(1.03);
+    .cover{
+      width:100%;
+      display:block;
+      height:auto;
+      object-fit:cover;
     }
 
-    .active {
-      border-color: #c44bff;
-      background: #fce7ff;
-      font-weight: 700;
-      color: #a010d4;
+    .meta{
+      margin-top:12px;
     }
 
-    /* Floating Play Button */
-    #floatingBtn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 65px;
-      height: 65px;
-      background: #d86bff;
-      color: white;
-      border-radius: 50%;
-      font-size: 30px;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
-      transition: 0.3s;
+    .title{
+      font-size:20px;
+      font-weight:700;
+      color:#2b1a45;
+      margin:6px 0 2px;
     }
 
-    #floatingBtn:hover {
-      transform: scale(1.1);
-      background: #c453f2;
+    .artist{
+      color:var(--muted);
+      font-size:14px;
+      margin-bottom:14px;
+    }
+
+    /* Progress */
+    .progress-wrap{
+      width:92%;
+      margin: 0 auto 12px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .time{font-size:12px;color:var(--muted); width:36px;}
+    .progress{
+      flex:1;
+      height:8px;
+      background:#f0e7fb;
+      border-radius:10px;
+      position:relative;
+      overflow:hidden;
+    }
+    .progress > .bar{
+      position:absolute;
+      left:0; top:0; bottom:0;
+      width:0%;
+      background:linear-gradient(90deg,var(--accent), #c65bff);
+      border-radius:10px;
+      transition: width 0.1s linear;
+    }
+
+    /* Controls */
+    .controls{
+      margin-top:6px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+    }
+    .btn{
+      background:transparent;
+      border:none;
+      font-size:20px;
+      padding:10px;
+      border-radius:10px;
+      cursor:pointer;
+    }
+    .play{
+      width:66px;
+      height:66px;
+      border-radius:50%;
+      background:linear-gradient(180deg,var(--accent), #c65bff);
+      color:white;
+      font-size:26px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 8px 20px rgba(138,59,226,0.25);
+    }
+
+    /* Queue */
+    .queue{
+      margin-top:16px;
+      text-align:left;
+    }
+    .queue h3{
+      font-size:15px;
+      margin:0 0 8px 8px;
+      color:#3b2a4a;
+    }
+    .track{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:10px;
+      border-radius:12px;
+      margin:8px 0;
+      transition:all .18s;
+      cursor:pointer;
+    }
+    .track:hover{ transform:translateY(-3px) }
+    .track img{ width:48px; height:48px; border-radius:8px; object-fit:cover; }
+    .track .tmeta{ font-size:14px; }
+    .track .tmeta .name{ font-weight:600; color:#332244 }
+    .track .tmeta .sub{ font-size:12px; color:var(--muted); margin-top:2px }
+    .track.active{
+      background: linear-gradient(90deg, rgba(138,59,226,0.08), rgba(198,91,255,0.03));
+      border:1px solid rgba(138,59,226,0.06);
+    }
+
+    /* small screens */
+    @media (max-width:420px){
+      .container{ padding:0 12px }
+      .cover-wrap{ width:92% }
     }
   </style>
 </head>
-
 <body>
 
-  <a href="index.html" style="text-decoration:none; color:#444;">← Back</a>
+  <div class="container">
+    <a class="back" href="index.html">← Back</a>
 
-  <h1>🎵 Our Playlist</h1>
-  <p>Songs that remind me of you 💜</p>
+    <div class="card">
+      <div class="cover-wrap">
+        <img id="coverImg" class="cover" src="song1.jpg" alt="cover">
+      </div>
 
-  <ul id="songList">
-    <li data-src="song1.mp3">💜 Song 1</li>
-    <li data-src="song2.mp3">💜 Song 2</li>
-    <li data-src="song3.mp3">💜 Song 3</li>
-  </ul>
+      <div class="meta">
+        <div class="title" id="songTitle">Song 1</div>
+        <div class="artist" id="songArtist">Artist Name</div>
 
-  <!-- Hidden audio player -->
-  <audio id="player"></audio>
+        <div class="progress-wrap">
+          <div class="time" id="curTime">0:00</div>
+          <div class="progress" id="progressBar" role="progressbar" aria-valuemin="0">
+            <div class="bar" id="progressFill"></div>
+          </div>
+          <div class="time" id="durTime">0:00</div>
+        </div>
 
-  <!-- Floating Button -->
-  <button id="floatingBtn">▶️</button>
+        <div class="controls" aria-hidden="false">
+          <button id="prev" class="btn" title="Previous">⏮</button>
+          <button id="play" class="play" title="Play">▶</button>
+          <button id="next" class="btn" title="Next">⏭</button>
+        </div>
+      </div>
+
+      <div class="queue">
+        <h3>Up next</h3>
+        <div id="tracks">
+          <!-- Tracks will be inserted by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- audio -->
+  <audio id="audio"></audio>
 
   <script>
-    const songs = ["song1.mp3", "song2.mp3", "song3.mp3"];
-    const songList = document.querySelectorAll("#songList li");
-    const player = document.getElementById("player");
-    const btn = document.getElementById("floatingBtn");
+    // ---------- EDIT THESE ARRAYS IF YOUR FILENAMES ARE DIFFERENT ----------
+    const playlist = [
+      {src: "song1.mp3", title: "Song 1", artist: "You & Me", cover: "song1.jpg"},
+      {src: "song2.mp3", title: "Song 2", artist: "My Heart", cover: "song2.jpg"},
+      {src: "song3.mp3", title: "Song 3", artist: "Always", cover: "song3.jpg"}
+    ];
+    // ---------------------------------------------------------------------
 
-    let index = 0;
+    // DOM
+    const audio = document.getElementById("audio");
+    const coverImg = document.getElementById("coverImg");
+    const songTitle = document.getElementById("songTitle");
+    const songArtist = document.getElementById("songArtist");
+    const playBtn = document.getElementById("play");
+    const prevBtn = document.getElementById("prev");
+    const nextBtn = document.getElementById("next");
+    const progressFill = document.getElementById("progressFill");
+    const progressBar = document.getElementById("progressBar");
+    const curTimeEl = document.getElementById("curTime");
+    const durTimeEl = document.getElementById("durTime");
+    const tracksEl = document.getElementById("tracks");
+
+    // state
+    let idx = 0;
     let isPlaying = false;
 
-    function loadSong(i) {
-      player.src = songs[i];
-      highlight(i);
-    }
-
-    function highlight(i) {
-      songList.forEach((li, idx) => {
-        li.classList.toggle("active", idx === i);
+    // build queue UI
+    function buildQueue(){
+      tracksEl.innerHTML = "";
+      playlist.forEach((p, i) => {
+        const tr = document.createElement("div");
+        tr.className = "track" + (i===idx ? " active" : "");
+        tr.dataset.index = i;
+        tr.innerHTML = `
+          <img src="${p.cover}" alt="cover">
+          <div class="tmeta">
+            <div class="name">${p.title}</div>
+            <div class="sub">${p.artist}</div>
+          </div>
+        `;
+        tr.addEventListener("click", ()=> {
+          idx = i; loadAndPlay();
+        });
+        tracksEl.appendChild(tr);
       });
     }
 
-    function playMusic() {
-      player.play();
-      btn.textContent = "⏸";
-      isPlaying = true;
+    // load song metadata into UI
+    function loadSong(i){
+      const p = playlist[i];
+      audio.src = p.src;
+      songTitle.textContent = p.title;
+      songArtist.textContent = p.artist;
+      coverImg.src = p.cover;
+      updateActiveTrack();
     }
 
-    function pauseMusic() {
-      player.pause();
-      btn.textContent = "▶️";
+    function updateActiveTrack(){
+      const list = document.querySelectorAll(".track");
+      list.forEach(el => el.classList.toggle("active", Number(el.dataset.index) === idx));
+    }
+
+    function play(){
+      audio.play().then(()=> {
+        isPlaying = true;
+        playBtn.textContent = "⏸";
+      }).catch(err=>{
+        // play may be blocked until user gesture — but user clicked
+        console.log("play() error:", err);
+      });
+    }
+    function pause(){
+      audio.pause();
       isPlaying = false;
+      playBtn.textContent = "▶";
     }
 
-    btn.addEventListener("click", () => {
-      if (isPlaying) pauseMusic();
-      else playMusic();
+    function loadAndPlay(){
+      loadSong(idx);
+      play();
+    }
+
+    // controls
+    playBtn.addEventListener("click", () => {
+      if (!isPlaying) play();
+      else pause();
     });
 
-    songList.forEach((li, i) => {
-      li.addEventListener("click", () => {
-        index = i;
-        loadSong(index);
-        playMusic();
-      });
+    prevBtn.addEventListener("click", () => {
+      idx = (idx - 1 + playlist.length) % playlist.length;
+      loadAndPlay();
     });
 
-    player.onended = () => {
-      index = (index + 1) % songs.length; 
-      loadSong(index);
-      playMusic();
-    };
+    nextBtn.addEventListener("click", () => {
+      idx = (idx + 1) % playlist.length;
+      loadAndPlay();
+    });
 
-    loadSong(index);
+    // progress updates
+    audio.addEventListener("timeupdate", () => {
+      const percent = (audio.currentTime / (audio.duration || 1)) * 100;
+      progressFill.style.width = percent + "%";
+      curTimeEl.textContent = formatTime(audio.currentTime);
+      durTimeEl.textContent = formatTime(audio.duration || 0);
+    });
+
+    // click to seek
+    progressBar.addEventListener("click", (e) => {
+      const rect = progressBar.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const pct = clickX / rect.width;
+      audio.currentTime = pct * (audio.duration || 0);
+    });
+
+    // when track ends -> next
+    audio.addEventListener("ended", () => {
+      idx = (idx + 1) % playlist.length;
+      loadAndPlay();
+    });
+
+    // format mm:ss
+    function formatTime(t){
+      if (!t || isNaN(t)) return "0:00";
+      const m = Math.floor(t/60);
+      const s = Math.floor(t%60).toString().padStart(2,"0");
+      return `${m}:${s}`;
+    }
+
+    // initial
+    buildQueue();
+    loadSong(idx);
+
+    // Friendly note: on mobile the user must tap Play for audio to start.
   </script>
-
 </body>
 </html>
