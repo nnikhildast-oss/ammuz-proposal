@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   const page = document.body.id || '';
   const bgm = document.getElementById('bgm');         // background music (music.mp3)
-  const clickSnd = new Audio('click.mp3');           // button touch sound (click.mp3) — upload to repo root
+  const clickSnd = new Audio('click .mp3');           // button touch sound (click.mp3) — upload to repo root
   clickSnd.volume = 0.9;
 
   // safe play helper (try/catch)
